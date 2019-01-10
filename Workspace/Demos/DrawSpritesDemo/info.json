@@ -1,0 +1,10 @@
+{
+    "name":"DrawSpritesDemo",
+    "description":"",
+    "version":"v0.9.0",
+    "ext":".pv8",
+    "gpuChip":"Fami",
+    "cartChip":"Fami",
+    "soundChip":"Fami",
+    
+}

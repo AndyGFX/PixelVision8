@@ -4,22 +4,8 @@ LoadScript("TMarchingSquare.lua")
 
 theme1 = {}
 
-theme1[01] = {tile = 3,flag=1}
-theme1[02] = {tile = 16,flag=1}
-theme1[03] = {tile = 17,flag=1}
-theme1[04] = {tile = 18,flag=1}
-theme1[05] = {tile = 19,flag=-1}
-theme1[06] = {tile = 20,flag=-1}
-theme1[07] = {tile = 21,flag=-1}
-theme1[08] = {tile = 22,flag=-1}
-theme1[09] = {tile = 23,flag=-1}
-theme1[10] = {tile = 24,flag=-1}
-theme1[11] = {tile = 25,flag=-1}
-theme1[12] = {tile = 26,flag=-1}
-theme1[13] = {tile = 27,flag=-1}
-theme1[14] = {tile = 28,flag=-1}
-theme1[15] = {tile = 29,flag=-1}
-theme1[16] = {tile = 30,flag=-1}
+
+marchingSquares = TMarchingSquare:New();
 
 cave = TCellular:New();
 scrollPos = {}
@@ -36,9 +22,10 @@ function Init()
 	-- Let's draw the title into the tilemap
 	DrawText("Marching squares", 1, 1, DrawMode.Tile, "large-font")
 
+	SetTileTheme(16)
 
 	cave:Generate(32,30,0.6,3,5,5);
-	marchingSquares = TMarchingSquare:New();
+
 	marchingSquares.theme = theme1;
 	marchingSquares.invert = true;
 	marchingSquares.mapData = cave;
@@ -59,6 +46,10 @@ function Update(timeDelta)
 	if Button(Buttons.Down,InputState.Down) then scrollPos.y=scrollPos.y+1; end
 	if Button(Buttons.Left,InputState.Down) then scrollPos.x=scrollPos.x-1; end
 	if Button(Buttons.Right,InputState.Down) then scrollPos.x=scrollPos.x+1; end
+
+	if Key(Keys.A,InputState.Down) then SetTileTheme(16); end
+	if Key(Keys.B,InputState.Down) then SetTileTheme(32); end
+
 end
 
 -- The Draw() method is part of the game's life cycle. It is called after Update() and is where
@@ -71,5 +62,28 @@ function Draw()
 
 	-- TODO add your own draw logic here.
 	cave:PreviewMap(0,0);
+
+end
+
+
+function SetTileTheme(tile_offset)
+
+	theme1[01] = {tile = 0 + tile_offset,flag=-1}
+	theme1[02] = {tile = 1 + tile_offset,flag=-1}
+	theme1[03] = {tile = 2 + tile_offset,flag=-1}
+	theme1[04] = {tile = 3 + tile_offset,flag=-1}
+	theme1[05] = {tile = 4 + tile_offset,flag=-1}
+	theme1[06] = {tile = 5 + tile_offset,flag=-1}
+	theme1[07] = {tile = 6 + tile_offset,flag=-1}
+	theme1[08] = {tile = 7 + tile_offset,flag=-1}
+	theme1[09] = {tile = 8 + tile_offset,flag=-1}
+	theme1[10] = {tile = 9 + tile_offset,flag=-1}
+	theme1[11] = {tile = 10 + tile_offset,flag=-1}
+	theme1[12] = {tile = 11 + tile_offset,flag=-1}
+	theme1[13] = {tile = 12 + tile_offset,flag=-1}
+	theme1[14] = {tile = 13 + tile_offset,flag=-1}
+	theme1[15] = {tile = 14 + tile_offset,flag=-1}
+	theme1[16] = {tile = 15 + tile_offset,flag=-1}
+
 
 end

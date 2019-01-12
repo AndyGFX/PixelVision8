@@ -7,22 +7,22 @@ TDraw = {}
 -- TCellular CONSTRUCTOR --------------------------------------
 ---------------------------------------------------------------
 
-function TDraw:New() 
+function TDraw:New()
 
-    o = { 
-        } 
+    o = {
+        }
 
-    setmetatable(o, self) 
-    self.__index = self 
+    setmetatable(o, self)
+    self.__index = self
 
-    return o 
+    return o
 
-end  
+end
 
 function TDraw:Pixel(x,y,color)
-    DrawPixels({color},x,y-7,1,1);
+    DrawPixels({color},x,y,1,1);
 end
- 
+
 function TDraw:Line(x0, y0, x1,y1,color)
     local steep = false;
     local tmp = 0;
@@ -31,26 +31,26 @@ function TDraw:Line(x0, y0, x1,y1,color)
         tmp = x0;
         x0 = y0;
         y0 = tmp;
- 
+
         tmp = x1;
         x1 = y1;
         y1 = tmp;
     end
- 
+
     if x0 > x1 then
          tmp = x0;
          x0 = x1;
          x1 = tmp;
- 
+
          tmp = y0;
          y0 = y1;
          y1 = tmp;
     end
- 
+
     local deltax = x1 - x0;
     local deltay = math.abs(y1 - y0);
     local error = deltax / 2;
- 
+
     y = y0
     if y0 < y1  then
        ystep = 1
@@ -108,21 +108,21 @@ function TDraw:Rectangle(x0,y0,x1,y1,color, filled)
   end
 
 function TDraw:PolyLine(points, color, closed)
-  
+
   local idx = 2;
   for i=1,#points-2,2 do
-    
+
     if i==1 then
-      self:Line(points[1],points[2],points[3],points[4],color)            
+      self:Line(points[1],points[2],points[3],points[4],color)
     else
-      self:Line(points[idx-1],points[idx],points[idx+1],points[idx+2],color)      
+      self:Line(points[idx-1],points[idx],points[idx+1],points[idx+2],color)
     end
-    
+
     idx=idx+2
   end
 
   if closed then
-    self:Line(points[1],points[2],points[#points-1],points[#points],color)      
+    self:Line(points[1],points[2],points[#points-1],points[#points],color)
   end
 
 end
@@ -138,7 +138,7 @@ function TDraw:Circle(cx,cy,r,color,filled)
       self:Line(cx+x,cy+y,cx+x,cy-y,color)
       self:Pixel(cx-x,cy-y,color+2)
       self:Pixel(cx-x,cy+y,color+1)
-      
+
     else
       self:Pixel(cx+x,cy+y,color)
       self:Pixel(cx+x,cy-y,color)
@@ -158,8 +158,8 @@ function TDraw:Circle2(cx,cy,r,color,filled)
 
     if (filled) then
       self:Line(cx+x,cy+y,cx+x,cy-y,color)
-      
-      
+
+
     else
       self:Pixel(cx+x,cy+y,color)
       self:Pixel(cx+x,cy-y,color)

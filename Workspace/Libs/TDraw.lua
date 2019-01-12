@@ -96,7 +96,7 @@ function TDraw:Rectangle(x0,y0,x1,y1,color, filled)
     local Dy = y1;
 
     if (filled) then
-      for yy=y1,y0 do
+      for yy=y0,y1 do
         self:Line(Ax,yy,Bx,yy,color)
       end
     else

@@ -24,6 +24,15 @@
 
 ![Alt text](Screenshots/Pixel_Vision_8_Make_2019-01-12_16-24-55.png?raw=true "PREVIEW")
 
+- Bump
+  - fast AABB collision
+  - little bit modified for using in PV8
+  - original source and doc: https://github.com/kikito/bump.lua
+
+![Alt text](Screenshots/Pixel_Vision_8_Make_2019-01-13_13-39-54.png?raw=true "PREVIEW")
+
+
+
 # Instalation
 
 - download folder [AndyGFXDisk]

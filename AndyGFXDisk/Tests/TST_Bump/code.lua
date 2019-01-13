@@ -88,7 +88,9 @@ addBlock(C)
 addPlayer(player)
 
 local dx, dy = 0, 0
-local info = ""
+local info1 = ""
+local info2 = ""
+local info3 = ""
 
 
 -- The Init() method is part of the game's lifecycle and called a game starts. We are going to
@@ -110,7 +112,9 @@ function Update(timeDelta)
 
   local speed = player.speed
   dx, dy = 0, 0
-  info = ""
+  info1 = ""
+  info2 = ""
+  info3 = ""
 
 
   if Button(Buttons.Up, InputState.Down) then dy = -speed end
@@ -124,7 +128,9 @@ function Update(timeDelta)
 
     for i = 1, tonumber(cols_len) do
       local col = cols[i]
-      info = "col.other: "..col.other.name..", col.type: "..col.type..", col.normal: "..tostring(col.normal.x) ..","..tostring(col.normal.y)
+      info1 = "col.other: "..col.other.name
+      info2 = "col.type: "..col.type
+      info3 = "col.normal: "..tostring(col.normal.x) ..","..tostring(col.normal.y)
     end
   end
 
@@ -143,5 +149,7 @@ function Draw()
   drawBlocks()
   drawPlayer(player)
   bump_debug.draw(world)
-  DrawText(info, 8, 64, DrawMode.Sprite, "large-font", 2, 0)
+  DrawText(info1, 8, 196, DrawMode.Sprite, "large-font", 2, 0)
+  DrawText(info2, 8, 196+8, DrawMode.Sprite, "large-font", 2, 0)
+  DrawText(info3, 8, 196+16, DrawMode.Sprite, "large-font", 2, 0)
 end

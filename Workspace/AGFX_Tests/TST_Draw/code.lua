@@ -43,18 +43,31 @@ function Draw()
   -- single call.
   RedrawDisplay()
 
-  draw:Pixel(10,10,1)
-  draw:Pixel(10,12,2)
 
-  draw:Line(10,40,100,30,2)
+  for id=1,16 do
+    draw:Line(1,id,264,id,id)
+  end
 
-  local x = 30
-  local y = 30
+  local c = 0
+  for x=1,264,2 do
+    for y=20,36,2 do
+      c = c+1
+      draw:Pixel(x,y,c%16)
+    end
+  end
+
+
   local size = 32
-  draw:Rectangle(x,y,x+size,y+size,5,false)
-  x = 100
-  y = 50
-  draw:Rectangle(x,y,x+size,y+size,6,true)
+  c = 1
+  for o=0,2 do
+    local x = 30
+    local y = 64+64 * o
+    c=c+1
+    draw:Rectangle(x,o+y,x+size,o+y+size,c,false)
+    x = 100
+    y = 64+64*o
+    draw:Rectangle(x,o+y,x+size,o+y+size,c,true)
+  end
 
 
 end

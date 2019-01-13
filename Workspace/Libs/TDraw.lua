@@ -128,56 +128,54 @@ function TDraw:PolyLine(points, color, closed)
 end
 
 
---[[
 
-private final void circlePoints(int cx, int cy, int x, int y, int pix)
-{
-    int act = Color.red.getRGB();
 
-    if (x == 0) {
-        raster.setPixel(act, cx, cy + y);
-        raster.setPixel(pix, cx, cy - y);
-        raster.setPixel(pix, cx + y, cy);
-        raster.setPixel(pix, cx - y, cy);
-    } else
-    if (x == y) {
-        raster.setPixel(act, cx + x, cy + y);
-        raster.setPixel(pix, cx - x, cy + y);
-        raster.setPixel(pix, cx + x, cy - y);
-        raster.setPixel(pix, cx - x, cy - y);
-    } else
-    if (x < y) {
-        raster.setPixel(act, cx + x, cy + y);
-        raster.setPixel(pix, cx - x, cy + y);
-        raster.setPixel(pix, cx + x, cy - y);
-        raster.setPixel(pix, cx - x, cy - y);
-        raster.setPixel(pix, cx + y, cy + x);
-        raster.setPixel(pix, cx - y, cy + x);
-        raster.setPixel(pix, cx + y, cy - x);
-        raster.setPixel(pix, cx - y, cy - x);
-    }
-}
+function TDraw:CirclePoints(cx, cy, x,y, color)
 
-public void circleMidpoint(int xCenter, int yCenter, int radius, Color c)
-{
-    int pix = c.getRGB();
-    int x = 0;
-    int y = radius;
-    int p = (5 - radius*4)/4;
+    local act = 4
 
-    circlePoints(xCenter, yCenter, x, y, pix);
-    while (x < y) {
-        x++;
-        if (p < 0) {
-            p += 2*x+1;
-        } else {
-            y--;
-            p += 2*(x-y)+1;
-        }
-        circlePoints(xCenter, yCenter, x, y, pix);
-    }
-}
-]]
+    if (x == 0) then
+        self:Pixel( cx, cy + y, act)
+        self:Pixel( cx, cy - y, color)
+        self:Pixel( cx + y, cy, color)
+        self:Pixel( cx - y, cy, color)
+    elseif (x == y) then
+        self:Pixel( cx + x, cy + y, color)
+        self:Pixel( cx - x, cy + y, color)
+        self:Pixel( cx + x, cy - y, color)
+        self:Pixel( cx - x, cy - y, color)
+    elseif (x < y) then
+        self:Pixel( cx + x, cy + y, color)
+        self:Pixel( cx - x, cy + y, color)
+        self:Pixel( cx + x, cy - y, color)
+        self:Pixel( cx - x, cy - y, color)
+        self:Pixel( cx + y, cy + x, color)
+        self:Pixel( cx - y, cy + x, color)
+        self:Pixel( cx + y, cy - x, color)
+        self:Pixel( cx - y, cy - x, color)
+    end
+end
+
+
+function TDraw:Circle(xCenter,yCenter,radius,c)
+
+    
+    local x = 0;
+    local y = radius;
+    local p = (5 - radius*4)/4;
+
+    self:CirclePoints(xCenter, yCenter, x, y, c);
+    while (x < y) do
+        x=x+1
+        if (p < 0) then
+            p = p + 2*x+1
+        else
+            y=y-1
+            p = p + 2*(x-y)+1
+        end
+        self:CirclePoints(xCenter, yCenter, x, y, c)
+    end
+end
 
 
 

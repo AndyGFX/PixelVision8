@@ -86,4 +86,11 @@ function Draw()
 
   end
 
+
+  draw:Circle(196,128,48,8)
+  draw:Circle(196,128,44,9)
+  draw:Circle(196,128,40,10)
+  draw:Circle(196,128,36,11)
+
+
 end

@@ -61,13 +61,29 @@ function Draw()
   c = 1
   for o=0,2 do
     local x = 30
-    local y = 64+64 * o
+    local y = 64+40 * o
     c=c+1
     draw:Rectangle(x,o+y,x+size,o+y+size,c,false)
     x = 100
-    y = 64+64*o
+    y = 64+40*o
     draw:Rectangle(x,o+y,x+size,o+y+size,c,true)
   end
 
+
+
+
+  for l=168,196 do
+
+    local points = {
+      0,l+16,
+      32,l+32,
+      64,l+16,
+      96,l+32,
+      128,l+16,
+      160,l+32}
+
+    draw:PolyLine(points,l%16,false)
+
+  end
 
 end

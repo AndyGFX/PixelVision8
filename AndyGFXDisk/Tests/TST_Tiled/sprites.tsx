@@ -4,8 +4,16 @@
  <terraintypes>
   <terrain name="Platform" tile="19"/>
  </terraintypes>
- <tile id="16" terrain=",,,0"/>
- <tile id="17" terrain=",,0,0"/>
+ <tile id="16" terrain=",,,0">
+  <properties>
+   <property name="TileType" value="SOLID"/>
+  </properties>
+ </tile>
+ <tile id="17" terrain=",,0,0">
+  <properties>
+   <property name="TIleType" value="SOLID"/>
+  </properties>
+ </tile>
  <tile id="18" terrain=",,0,"/>
  <tile id="32" terrain=",0,,0"/>
  <tile id="33" terrain="0,0,0,0"/>

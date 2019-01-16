@@ -20,19 +20,11 @@ function Init()
 
   local lid = tiled:GetLayerID("Tile Layer 1")
   local tid = tiled:GetTile(lid,0,0)
-  DrawText(tid, 0, 21, DrawMode.Tile, "large",3)
-  tid = tiled:GetTile(lid,1,0)-1
-  if (tid~=0) then
-    DrawText(tid-1, 0, 22, DrawMode.Tile, "large",3)
-  end
-
 
   for x=0,tiled.tmx.layers[lid].width-1 do
     for y=0,tiled.tmx.layers[lid].height-1 do
-      tid = tiled:GetTile(lid,x,y)-1
-      if (tid~=0) then
-        Tile(x,y,tid,0,0)
-      end
+      local tile = tiled:GetTile(lid,x,y)
+      Tile(x,y,tile.id,0,0)
     end
   end
 
@@ -56,6 +48,6 @@ function Draw()
   RedrawDisplay()
 
   -- TODO add your own draw logic here.
-  
+
 
 end

@@ -15,6 +15,15 @@
   </properties>
  </tile>
  <tile id="18" terrain=",,0,"/>
+ <tile id="20">
+  <animation>
+   <frame tileid="20" duration="100"/>
+   <frame tileid="21" duration="100"/>
+   <frame tileid="22" duration="100"/>
+   <frame tileid="23" duration="100"/>
+   <frame tileid="24" duration="100"/>
+  </animation>
+ </tile>
  <tile id="32" terrain=",0,,0"/>
  <tile id="33" terrain="0,0,0,0"/>
  <tile id="34" terrain="0,,0,"/>

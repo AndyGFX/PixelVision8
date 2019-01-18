@@ -28,6 +28,25 @@ function TLuaTiled:SetTmx(tmxData)
 	self.tmx = tmxData
 end
 
+---------------------------------------------------------------
+-- Prepare additional properties to tmx structure
+---------------------------------------------------------------
+function TLuaTiled:Prepare()
+
+  -- for all tilesets
+  for t=1,#self.tmx.tilesets do
+    -- and all tiles inside
+  	for i=1,#self.tmx.tilesets[t].tiles do
+      -- if exist animation
+      if self.tmx.tilesets[t].tiles[i].animation ~=nil then
+        -- define additional information
+        self.tmx.tilesets[t].tiles[i].animation.frame_id = 1
+        self.tmx.tilesets[t].tiles[i].animation.frames = #self.tmx.tilesets[t].tiles[i].animation
+      end
+    end
+  end
+end
+
 
 ---------------------------------------------------------------
 -- Find TMX layer ID by name
@@ -74,7 +93,7 @@ function TLuaTiled:DrawAsTileMap(lid)
       local tile = self:GetTile(lid,x,y)
       Tile(x,y,tile.id,0,0)
     end
-  end	
+  end
 end
 
 function TLuaTiled:DrawAsSpriteMap(lid)
@@ -87,4 +106,3 @@ function TLuaTiled:DrawAsSpriteMap(lid)
   end
 
 end
-

@@ -9,6 +9,8 @@ local tiled = nil
 local tid
 local lid
 
+
+
 -- The Init() method is part of the game's lifecycle and called a game starts. We are going to
 -- use this method to configure background color, ScreenBufferChip and draw a text box.
 function Init()
@@ -19,21 +21,11 @@ function Init()
   local display = Display()
 
   tiled = TLuaTiled:New(tmxData)
-
+  tiled:Prepare()
   lid = tiled:GetLayerID("Platforms")
   tid = tiled:GetTile(lid,0,0)
 
---[[
-  -- draw tiles to TILEMAP 
-  for x=0,tiled.tmx.layers[lid].width-1 do
-    for y=0,tiled.tmx.layers[lid].height-1 do
-      local tile = tiled:GetTile(lid,x,y)
-      Tile(x,y,tile.id,0,0)
-    end
-  end
-]]
-
-  tiled:DrawAsTileMap(lid)
+  --tiled:DrawAsTileMap(lid)
 
 end
 
@@ -56,7 +48,7 @@ function Draw()
 
   -- TODO add your own draw logic here.
 
-  -- draw tiles to screen with flip flag 
-  -- tiled:DrawAsSpriteMap(lid)
+  -- draw tiles to screen with flip flag
+  tiled:DrawAsSpriteMap(lid)
 
 end

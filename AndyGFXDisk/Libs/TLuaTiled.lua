@@ -31,7 +31,7 @@ end
 ---------------------------------------------------------------
 -- Prepare additional properties to tmx structure
 ---------------------------------------------------------------
-function TLuaTiled:Prepare()
+function TLuaTiled:PrepareAnimations()
 
   -- for all tilesets
   for t=1,#self.tmx.tilesets do
@@ -40,13 +40,50 @@ function TLuaTiled:Prepare()
       -- if exist animation
       if self.tmx.tilesets[t].tiles[i].animation ~=nil then
         -- define additional information
-        self.tmx.tilesets[t].tiles[i].animation.frame_id = 1
-        self.tmx.tilesets[t].tiles[i].animation.frames = #self.tmx.tilesets[t].tiles[i].animation
+        self.tmx.tilesets[t].tiles[i].frame_id = 1
+        self.tmx.tilesets[t].tiles[i].frames = #self.tmx.tilesets[t].tiles[i].animation
+        self.tmx.tilesets[t].tiles[i].time = 0
       end
     end
   end
 end
 
+---------------------------------------------------------------
+-- Reset additional animation properties from tmx structure
+-- and set exported/default values
+---------------------------------------------------------------
+function TLuaTiled:ResetAnimations()
+
+  -- for all tilesets
+  for t=1,#self.tmx.tilesets do
+    -- and all tiles inside
+  	for i=1,#self.tmx.tilesets[t].tiles do
+      -- if exist animation
+      if self.tmx.tilesets[t].tiles[i].animation ~=nil then
+        -- define additional information
+        self.tmx.tilesets[t].tiles[i].id = self.tmx.tilesets[t].tiles[i].animation[1]
+        self.tmx.tilesets[t].tiles[i].frame_id = 1
+        self.tmx.tilesets[t].tiles[i].time = 0
+      end
+    end
+  end
+end
+
+
+---------------------------------------------------------------
+-- Find TMX layer ID by name
+---------------------------------------------------------------
+function TLuaTiled:GetAnimationDataForTile(tid)
+  for t=1,#self.tmx.tilesets do
+    -- and all tiles inside
+  	for i=1,#self.tmx.tilesets[t].tiles do
+      -- if exist animation
+      if (self.tmx.tilesets[t].tiles[i].id==tid and self.tmx.tilesets[t].tiles[i].animation ~=nil) then
+        return self.tmx.tilesets[t].tiles[i]
+      end
+    end
+  end
+end
 
 ---------------------------------------------------------------
 -- Find TMX layer ID by name
@@ -58,6 +95,56 @@ function TLuaTiled:GetLayerID(layerName)
 	end
 	return id
 end
+
+
+---------------------------------------------------------------
+-- Check if tile has animation
+---------------------------------------------------------------
+function TLuaTiled:IsAnimated(tid)
+	for t=1,#self.tmx.tilesets do
+    -- and all tiles inside
+  	for i=1,#self.tmx.tilesets[t].tiles do
+      -- if exist animation
+      if (self.tmx.tilesets[t].tiles[i].id==tid and self.tmx.tilesets[t].tiles[i].animation ~=nil) then
+        return true
+      end
+    end
+  end
+
+	return false
+end
+
+---------------------------------------------------------------
+-- Check if tile has animation
+---------------------------------------------------------------
+function TLuaTiled:Update(deltaTime)
+
+	for t=1,#self.tmx.tilesets do
+    -- and all tiles inside
+  	for i=1,#self.tmx.tilesets[t].tiles do
+      -- if exist animation
+      if (self.tmx.tilesets[t].tiles[i].animation ~=nil) then
+          -- add delta time
+          self.tmx.tilesets[t].tiles[i].time = self.tmx.tilesets[t].tiles[i].time + (deltaTime*100)
+          -- if time > 100
+          if (self.tmx.tilesets[t].tiles[i].time>100) then
+            -- reset timer
+            self.tmx.tilesets[t].tiles[i].time = 0
+            -- add frame
+            self.tmx.tilesets[t].tiles[i].frame_id = self.tmx.tilesets[t].tiles[i].frame_id + 1;
+            -- if out of frames
+            if (self.tmx.tilesets[t].tiles[i].frame_id>self.tmx.tilesets[t].tiles[i].frames) then
+              -- set first frame
+              self.tmx.tilesets[t].tiles[i].frame_id = 1
+            end
+
+          end
+      end
+    end
+  end
+
+end
+
 
 ---------------------------------------------------------------
 -- Return Tile data on [X,Y] from definend layer
@@ -74,6 +161,12 @@ function TLuaTiled:GetTile(layer,x,y)
   if (bit32.band(tid,self.FLIPPED_HORIZONTALLY_FLAG)==self.FLIPPED_HORIZONTALLY_FLAG) then fxy = true else fxy = false end
 
   tid = bit32.band(tid,self.CLEAR_FLAG)
+
+
+  if (self:IsAnimated(tid)) then
+    local anim = self:GetAnimationDataForTile(tid)
+    tid = anim.animation[anim.frame_id].tileid
+  end
 
   if (tid~=0) then tid = tid-1 end
 

@@ -137,7 +137,6 @@ function TLuaTiled:Update(deltaTime)
               -- set first frame
               self.tmx.tilesets[t].tiles[i].frame_id = 1
             end
-
           end
       end
     end
@@ -153,33 +152,41 @@ function TLuaTiled:GetTile(layer,x,y)
   local tid = -1
   local pos = self.tmx.layers[layer].width*y+x
   local fx,fy,fxy = false
+  local anim = nil
+  local tile =
+  {
+    id = 0,
+    flip_x = false,
+    flip_y = false,
+    flip_xy = false
+  }
 
   tid = self.tmx.layers[layer].data[1+pos]
 
-  if (bit32.band(tid,self.FLIPPED_HORIZONTALLY_FLAG)==self.FLIPPED_HORIZONTALLY_FLAG) then fx = true else fx = false end
-  if (bit32.band(tid,self.FLIPPED_VERTICALLY_FLAG)==self.FLIPPED_VERTICALLY_FLAG) then fy = true else fy = false end
-  if (bit32.band(tid,self.FLIPPED_HORIZONTALLY_FLAG)==self.FLIPPED_HORIZONTALLY_FLAG) then fxy = true else fxy = false end
+  if (bit32.band(tid,self.FLIPPED_HORIZONTALLY_FLAG)==self.FLIPPED_HORIZONTALLY_FLAG) then tile.flip_x = true else tile.flip_x = false end
+  if (bit32.band(tid,self.FLIPPED_VERTICALLY_FLAG)==self.FLIPPED_VERTICALLY_FLAG) then tile.flip_y = true else tile.flip_y = false end
+  if (bit32.band(tid,self.FLIPPED_HORIZONTALLY_FLAG)==self.FLIPPED_HORIZONTALLY_FLAG) then tile.flip_xy = true else tile.flip_xy = false end
 
   tid = bit32.band(tid,self.CLEAR_FLAG)
 
+  -- ???? doesn work when is included here. From main script works !!!! Why ?????????
+  if self:IsAnimated(tid) then
+    anim = self:GetAnimationDataForTile(tid)
+    tile.id = anim.animation[anim.frame_id].tileid
+  else
 
-  if (self:IsAnimated(tid)) then
-    local anim = self:GetAnimationDataForTile(tid)
-    tid = anim.animation[anim.frame_id].tileid
+    tile.id = tid
   end
 
-  if (tid~=0) then tid = tid-1 end
+  if (tile.id~=0) then tile.id = tile.id-1 end
 
-  local tile =
-  {
-    id = tid,
-    flip_x = fx,
-    flip_y = fy,
-    flip_xy = fxy
-  }
+
 	return tile
 end
 
+---------------------------------------------------------------
+-- Draw tilemap in TILE mode
+---------------------------------------------------------------
 function TLuaTiled:DrawAsTileMap(lid)
   for x=0,self.tmx.layers[lid].width-1 do
     for y=0,self.tmx.layers[lid].height-1 do
@@ -189,6 +196,9 @@ function TLuaTiled:DrawAsTileMap(lid)
   end
 end
 
+---------------------------------------------------------------
+-- Draw tilemap in SPRITE mode
+---------------------------------------------------------------
 function TLuaTiled:DrawAsSpriteMap(lid)
 
   for x=0,self.tmx.layers[lid].width-1 do

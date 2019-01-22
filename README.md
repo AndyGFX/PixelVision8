@@ -31,6 +31,14 @@
 
 ![Alt text](Screenshots/Pixel_Vision_8_Make_2019-01-13_13-39-54.png?raw=true "PREVIEW")
 
+- TLuaTiled/TLuaTiledOpt
+  - load tmx file exported as lua fromTiled editor
+  - Draw tilemap with DrawMode.Tile
+  - Draw tileamp with DrawMode.Sprite
+  - in sprite mode works: flip x/y and aniamtion defined in Tiled
+
+  ![Alt text](Screenshots/Pixel_Vision_8_Make_2019-01-22_13-59-48.png?raw=true "PREVIEW")
+
 
 
 # Instalation

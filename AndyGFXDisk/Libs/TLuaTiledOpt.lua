@@ -106,6 +106,33 @@ function TLuaTiled:GetLayerID(layerName)
   return id
 end
 
+---------------------------------------------------------------
+-- Find TilsetID ID by map tile id
+---------------------------------------------------------------
+function TLuaTiled:GetTilsetID(tile_id)
+  local tileset_id = 1
+  for i=2,#self.tmx.tilesets do
+    if (tile_id<=self.tmx.tilesets[i].firstgid) then
+      return tileset_id
+    end
+      tileset_id=tileset_id+1
+  end
+  return tileset_id
+end
+
+---------------------------------------------------------------
+-- Find Tilset name ID by map tile id
+---------------------------------------------------------------
+function TLuaTiled:GetTilsetName(tile_id)
+  local tileset_id = 1
+  for i=2,#self.tmx.tilesets do
+    if (tile_id<=self.tmx.tilesets[i].firstgid) then
+      return self.tmx.tilesets[i-1].name
+    end
+      tileset_id=tileset_id+1
+  end
+  return nil
+end
 
 ---------------------------------------------------------------
 -- Check if tile has animation
@@ -175,6 +202,12 @@ function TLuaTiled:GetTile(layer,x,y)
   if (bit32.band(tid,self.FLIPPED_HORIZONTALLY_FLAG)==self.FLIPPED_HORIZONTALLY_FLAG) then tile.flip_xy = true else tile.flip_xy = false end
 
   tile.id = bit32.band(tid,self.CLEAR_FLAG)
+
+  local tileset_id = self:GetTilsetID(tile.id)
+  local real_tile_id = tile.id - self.tmx.tilesets[tileset_id].firstgid
+  tile.id = real_tile_id + 1 -- neew redesing method and remove stupud +/-1
+
+  --print("map ID: "..tile.id.." tileset id: "..tileset_id .." real tile id: "..real_tile_id)
 
   if (tile.id~=0) then
     if self:IsAnimated(tile.id) then

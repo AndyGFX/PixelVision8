@@ -3,7 +3,7 @@
 LoadScript("Test_level_33x31.lua")
 local tmxData = Get_Tilemap_000()
 
-LoadScript("TLuaTiledOpt.lua")
+LoadScript("TLuaTiled.lua")
 
 local tiled = nil
 local tid

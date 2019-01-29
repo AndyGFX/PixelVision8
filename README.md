@@ -35,7 +35,8 @@
   - load tmx file exported as lua fromTiled editor
   - Draw tilemap with DrawMode.Tile
   - Draw tileamp with DrawMode.Sprite
-  - in sprite mode works: flip x/y and aniamtion defined in Tiled
+  - in sprite mode works: flip x/y and animation defined in Tiled
+  - in tile mode works animation too
 
   ![Alt text](Screenshots/Pixel_Vision_8_Make_2019-01-22_13-59-48.png?raw=true "PREVIEW")
 
@@ -48,5 +49,4 @@
 
 # TODO
 
-- tiled tmx loader:
-- animation class
+- animation class (W.I.P)

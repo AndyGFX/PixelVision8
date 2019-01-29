@@ -24,21 +24,10 @@ function Init()
   tiled:PrepareAnimations()
   --tiled:ResetAnimations()
   lid = tiled:GetLayerID("Platforms")
-  tid = tiled:GetTile(lid,0,0)
+  --tid = tiled:GetTile(lid,0,0)
 
-
-
---[[
-  if tiled:IsAnimated(2) then
-    anim = tiled:GetAnimationDataForTile(20)
-    DrawText("ID       :" .. anim.id, 1, 1, DrawMode.Tile, "large",15)
-    DrawText("frame ID :" .. anim.frame_id, 1, 2, DrawMode.Tile, "large",15)
-    DrawText("frames   :" .. anim.frames, 1, 3, DrawMode.Tile, "large",15)
-    DrawText("tile ID  :" ..  anim.animation[anim.frame_id].tileid, 1, 4, DrawMode.Tile, "large",15)
-    DrawText("Time     :".. anim.time, 1, 5, DrawMode.Tile, "large",15)
-  end
-]]
-  --tiled:DrawAsTileMap(lid)
+  -- Draw Tilemap as DrawMode.Tile
+  tiled:DrawAsTileMap(lid)
 
 end
 
@@ -47,8 +36,9 @@ end
 -- milliseconds since the last frame.
 function Update(timeDelta)
 
-  -- TODO add your own update logic here
+  -- update animated tiles
    tiled:Update(timeDelta)
+
 end
 
 -- The Draw() method is part of the game's life cycle. It is called after Update() and is where
@@ -59,8 +49,10 @@ function Draw(timeDelta)
   -- single call.
   RedrawDisplay()
 
+  -- update animated tile when DrawMode.Tile is used (don't us this call in Sprite mode)
+  tiled:UpdateAnimatedTiles()
 
-  -- draw tiles to screen with flip flag
-  tiled:DrawAsSpriteMap(lid)
+  -- draw tiles + animated tile to screen with flip flag in DrawMode.Sprite
+  --tiled:DrawAsSpriteMap(lid)
 
 end

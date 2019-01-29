@@ -9,6 +9,7 @@ function TLuaTiled:New(data)
     o = {
           tmx = data or nil,
           animations = {},
+          animated_tiles = {},
           FLIPPED_HORIZONTALLY_FLAG = 0x80000000,
           FLIPPED_VERTICALLY_FLAG = 0x40000000,
           FLIPPED_DIAGONALLY_FLAG = 0x20000000,
@@ -163,7 +164,7 @@ function TLuaTiled:SetNextFrame(animation)
 end
 
 ---------------------------------------------------------------
--- Check if tile has animation
+-- Check if tile has animation [DrawMode.Sprite]
 ---------------------------------------------------------------
 function TLuaTiled:Update(deltaTime)
 
@@ -178,7 +179,15 @@ function TLuaTiled:Update(deltaTime)
   end
 end
 
-
+---------------------------------------------------------------
+-- Check if tile has animation [DrawMode.Tile]
+---------------------------------------------------------------
+function TLuaTiled:UpdateAnimatedTiles(deltaTime)
+  for i=1,#self.animated_tiles do
+    local tile_id = self.animations[tostring(self.animated_tiles[i].id)].tile
+    Tile(self.animated_tiles[i].x,self.animated_tiles[i].y,tile_id,0,0)
+  end
+end
 ---------------------------------------------------------------
 -- Return Tile data on [X,Y] from definend layer
 ---------------------------------------------------------------
@@ -212,6 +221,7 @@ function TLuaTiled:GetTile(layer,x,y)
 
     if self:IsAnimated(tile.id) then
       tile.id = self:GetAnimationFrameForTile(tile.id)
+
     end
   end
 
@@ -221,13 +231,26 @@ end
 -- Draw tilemap in TILE mode
 ---------------------------------------------------------------
 function TLuaTiled:DrawAsTileMap(lid)
+  local i = 1
+  self.animated_tiles = {}
+
   for x=0,self.tmx.layers[lid].width-1 do
     for y=0,self.tmx.layers[lid].height-1 do
       local tile = self:GetTile(lid,x,y)
+
+      if (self:IsAnimated(tile.id)) then
+          self.animated_tiles[i] = {}
+          self.animated_tiles[i].id = tile.id
+          self.animated_tiles[i].x = x
+          self.animated_tiles[i].y = y
+          i = i + 1
+      end
+
       Tile(x,y,tile.id,0,0)
     end
   end
 end
+
 
 ---------------------------------------------------------------
 -- Draw tilemap in SPRITE mode

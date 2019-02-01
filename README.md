@@ -40,7 +40,13 @@
 
   ![Alt text](Screenshots/Pixel_Vision_8_Make_2019-01-22_13-59-48.png?raw=true "PREVIEW")
 
+- TRooms
+  - generate rooms (based from TMaze)
+  - draw Minimap
+  - added used_data table for store room data
 
+
+![Alt text](Screenshots/Pixel_Vision_8_Make_2019-02-01_13-16-02.png?raw=true "PREVIEW")
 
 # Instalation
 

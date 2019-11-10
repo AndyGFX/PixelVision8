@@ -52,6 +52,7 @@
 
 - download folder [AndyGFXDisk]
 - drag folder [AndyGFXDisk] to PixelVison 8 OS desktop
+- Note: Libs folder copy to Workspace\System\Libs [PV8 0.9.6]
 
 # TODO
 
